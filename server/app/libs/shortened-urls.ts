@@ -1,15 +1,16 @@
 import Url from '../db/models/Url';
+import mongoose from 'mongoose';
 
 export const URL_DOMAIN = 'https://pbid.io';
 
-export function createRandomString() {
+export function createRandomString(): string {
   return Math.random()
     .toString(36)
     .replace(/[^a-zA-Z0-9]+/g, '')
     .substr(0, 8);
 }
 
-export async function createShortenedUrl(url) {
+export async function createShortenedUrl(url): Promise<mongoose.Document> {
   const shortened = `${URL_DOMAIN}/${createRandomString()}`;
   const createdUrl = new Url({ url, shortened });
   await createdUrl.save();
